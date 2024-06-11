@@ -23,13 +23,13 @@ public class UserController {
         try{
             UserEntity userData = userRepository.login(user.getEmail(), user.getPassword());
             if (userData != null) {
-                // Token Generated
+
                 response.put("status", "success");
                 response.put("code", 200);
                 response.put("userId", userData.getId());
-//                response.put("isAdmin", userData.isAdmin());
                 response.put("name", userData.getName());
                 response.put("email", userData.getEmail());
+                response.put("role", userData.getRole().toString());
 //                response.put("token", JwtUtils.generateToken(userData.getEmail()));
 //            } else {
                 response.put("code", "404");
@@ -71,12 +71,14 @@ public class UserController {
             userData.setName(user.getName());
             userData.setEmail(user.getEmail());
             userData.setPassword(user.getPassword());
+            userData.setRole(user.getRole());
 
             UserEntity result = userRepository.save(userData);
             response.put("status", "success");
             response.put("code", 201);
             response.put("id", result.getId());
             response.put("name", result.getName());
+            response.put("role", result.getRole().toString());
 //            response.put("token", JwtUtils.generateToken(result.getEmail()));
         } catch (Exception ex) {
             response.put("status", "error");
